@@ -1,0 +1,219 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    /* Global Styles & Variables */
+    :root {
+        --dark-brown: #4e342e;
+        --medium-brown: #6d4c41;
+        --soft-beige: #f5ebe0;
+        --warm-white: #faf9f6;
+        --accent-color: #d4a373;
+        --text-muted: #8d6e63;
+    }
+
+    body {
+        background-color: var(--warm-white);
+        font-family: 'Poppins', sans-serif;
+        color: var(--dark-brown);
+        overflow-x: hidden;
+    }
+
+    /* Hero Section Enhancements */
+    .hero-section {
+        padding: 120px 0; /* نضع الـ Gradient أولاً ثم الصورة بعد الفاصلة ليكون فوقها كطبقة شفافة */
+        background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('/images/gemini.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        border-radius: 0 0 80px 80px;
+        margin-bottom: 80px;
+    }
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.1;
+        margin-bottom: 25px;
+    }
+
+    /* Cards & Features */
+    .feature-card {
+		background: white;
+        border: 1px solid var(--soft-beige);
+        border-radius: 25px;
+        padding: 40px 30px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+        .feature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(78, 52, 46, 0.08);
+        }
+
+    .icon-box {
+        width: 80px;
+        height: 80px;
+        background: var(--soft-beige);
+        color: var(--medium-brown);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px;
+        font-size: 2rem;
+    }
+
+    /* Typography Classes */
+    .text-accent {
+        color: var(--accent-color);
+    }
+
+    .text-brown-light {
+        color: var(--text-muted);
+    }
+
+    .tracking-widest {
+        letter-spacing: 0.3rem;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    .btn-main {
+        background-color: var(--medium-brown);
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: 0.3s;
+        border: none;
+    }
+
+        .btn-main:hover {
+            background-color: var(--dark-brown);
+            color: white;
+            transform: scale(1.05);
+        }
+
+    /* Section Spacing */
+    .section-padding {
+        padding: 100px 0;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<section class="hero-section text-center">
+    <div class="container" style="animation: fadeInUp 1s ease;">
+        <h6 class="tracking-widest mb-3 text-accent">Luxury Abaya Collection</h6>
+        <h1 class="hero-title text-dark-brown">Timeless Style.<br>Modern Grace.</h1>
+        <p class="lead mb-5 text-brown-light mx-auto" style="max-width: 600px;">
+            Elevate your wardrobe with our exclusive handcrafted pieces, where traditional heritage meets contemporary elegance.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+            <a asp-controller="Products" asp-action="Index" class="btn btn-main shadow-lg">Shop Collection</a>
+            <a href="#about" class="btn btn-outline-dark rounded-pill px-5">Our Story</a>
+        </div>
+    </div>
+</section>
+<section class="container section-padding" id="collection">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Why Choose Us</h2>
+        <div style="width: 60px; height: 3px; background: var(--accent-color); margin: 15px auto;"></div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="icon-box shadow-sm">
+                    <i class="bi bi-diamond-half"></i>
+                </div>
+                <h4 class="fw-bold">Premium Fabric</h4>
+                <p class="text-muted">We source only the finest silks and authentic materials for our designs.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="icon-box shadow-sm">
+                    <i class="bi bi-palette-fill"></i>
+                </div>
+                <h4 class="fw-bold">Unique Designs</h4>
+                <p class="text-muted">Every piece is a unique masterpiece, telling its own story of elegance.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="icon-box shadow-sm">
+                    <i class="bi bi-rocket-takeoff-fill"></i>
+                </div>
+                <h4 class="fw-bold">Fast Delivery</h4>
+                <p class="text-muted">Safe and reliable worldwide shipping, right to your doorstep.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid section-padding" id="about" style="background-color: #f5ebe0;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-5 mb-md-0">
+                <div class="position-relative">
+                    <img src="/images/Abayaas.jpg" class="img-fluid rounded-5 shadow-lg" alt="About Us">
+                    <div class="position-absolute bottom-0 start-0 m-4 p-4 bg-white rounded-4 shadow d-none d-lg-block">
+                        <h5 class="fw-bold mb-0">10+ Years</h5>
+                        <small class="text-muted">Of Crafting Excellence</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ps-md-5">
+                <h6 class="tracking-widest text-accent mb-3">About the Boutique</h6>
+                <h2 class="display-5 fw-bold mb-4" style="color: #4e342e;">Oriental Elegance Reimagined</h2>
+                <p class="lead text-muted mb-4">
+                    Founded with a passion for modest fashion, we bridge the gap between cultural heritage and modern aesthetics. Each abaya is designed to empower every woman, celebrating her individuality and grace.
+                </p>
+                <ul class="list-unstyled mb-5">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-accent me-2"></i> Hand-stitched details</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-accent me-2"></i> Sustainable high-quality textiles</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-accent me-2"></i> Exclusive seasonal collections</li>
+                </ul>
+                <a asp-controller="Products" asp-action="Index" class="btn btn-dark btn-lg px-5 rounded-pill shadow">Explore More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container section-padding">
+    <div class="row text-center g-4">
+        <div class="col-md-4">
+            <div class="p-4">
+                <i class="bi bi-shield-lock fs-1 text-brown mb-3"></i>
+                <h5 class="fw-bold">Secure Payment</h5>
+                <p class="text-muted small">Your transactions are protected with high-level encryption.</p>
+            </div>
+        </div>
+        <div class="col-md-4 border-start border-end d-none d-md-block">
+            <div class="p-4">
+                <i class="bi bi-arrow-repeat fs-1 text-brown mb-3"></i>
+                <h5 class="fw-bold">Easy Returns</h5>
+                <p class="text-muted small">Not the perfect fit? Enjoy our hassle-free 14-day return policy.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4">
+                <i class="bi bi-headset fs-1 text-brown mb-3"></i>
+                <h5 class="fw-bold">24/7 Support</h5>
+                <p class="text-muted small">Our dedicated team is here to assist you at any time.</p>
+            </div>
+        </div>
+    </div>
+</section>

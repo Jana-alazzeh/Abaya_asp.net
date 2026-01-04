@@ -1,0 +1,209 @@
+﻿@model Abaya.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name + " - Details";
+}
+
+<style>
+    body {
+        background-color: #faf9f6;
+    }
+
+    .details-container {
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        border: 1px solid #eee2d9;
+        box-shadow: 0 15px 40px rgba(93, 64, 55, 0.05);
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    /* Image Gallery Section */
+    .product-gallery {
+        background-color: #fdfaf5;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .main-img-display {
+        width: 100%;
+        border-radius: 20px;
+        object-fit: cover;
+        height: 550px;
+        transition: transform 0.5s ease;
+    }
+
+        .main-img-display:hover {
+            transform: scale(1.02);
+        }
+
+    .thumbnail-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .thumb-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: 0.3s;
+    }
+
+        .thumb-img:hover, .thumb-img.active {
+            border-color: #d4a373;
+        }
+
+    /* Information Section */
+    .product-details-info {
+        padding: 40px;
+    }
+
+    .breadcrumb-custom {
+        font-size: 0.85rem;
+        color: #8d6e63;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .product-title {
+        color: #4e342e;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .price-tag {
+        color: #d4a373;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 25px;
+        display: block;
+    }
+
+    .description-text {
+        color: #6d4c41;
+        line-height: 1.8;
+        margin-bottom: 30px;
+    }
+
+    .btn-add-cart {
+        background-color: #5d4037;
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: 600;
+        width: 100%;
+        transition: 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+        .btn-add-cart:hover {
+            background-color: #3e2723;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(62, 39, 35, 0.2);
+            color: white;
+        }
+
+    .back-link {
+        color: #8d6e63;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        margin-top: 10px;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+
+        .back-link:hover {
+            color: #4e342e;
+            text-decoration: underline;
+        }
+
+    .text-brown-dark {
+        color: #4e342e;
+    }
+</style>
+
+<div class="container">
+    <div class="details-container row g-0 shadow-lg">
+
+        <div class="col-md-6 product-gallery">
+            @{
+                // Logic to handle image paths properly
+                var mainImgUrl = Model.ImageUrl ?? "";
+                if (!mainImgUrl.StartsWith("http") && !mainImgUrl.StartsWith("/"))
+                {
+                    mainImgUrl = "/" + mainImgUrl;
+                }
+            }
+
+            <img src="@mainImgUrl" id="mainImage" class="main-img-display shadow-sm" alt="@Model.Name" />
+
+            <div class="thumbnail-group">
+                <img src="@mainImgUrl" class="thumb-img active shadow-sm" onclick="changeImage('@mainImgUrl', this)" />
+
+                @if (!string.IsNullOrEmpty(Model.ImageUrl_Back))
+                {
+                    var backImgUrl = Model.ImageUrl_Back;
+                    if (!backImgUrl.StartsWith("http") && !backImgUrl.StartsWith("/"))
+                    {
+                        backImgUrl = "/" + backImgUrl;
+                    }
+                    <img src="@backImgUrl" class="thumb-img shadow-sm" onclick="changeImage('@backImgUrl', this)" />
+                }
+            </div>
+        </div>
+
+        <div class="col-md-6 product-details-info d-flex flex-column justify-content-center">
+            <div class="breadcrumb-custom">
+                Collections / Abayas / @Model.Name
+            </div>
+
+            <h1 class="product-title">@Model.Name</h1>
+            <span class="price-tag">@Model.Price.ToString("N2") JOD</span>
+
+            <div class="description-section mb-4">
+                <h6 class="fw-bold text-brown-dark mb-2">Product Description:</h6>
+                <p class="description-text">
+                    @(string.IsNullOrEmpty(Model.Description) ? "Experience elegance with this exclusive handcrafted abaya, designed with premium materials for a timeless look." : Model.Description)
+                </p>
+            </div>
+
+            <div class="mt-auto">
+                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-add-cart btn-lg">
+                    <i class="bi bi-bag-plus me-2"></i> Add to Shopping Bag
+                </a>
+
+                <a asp-action="Index" class="back-link">
+                    <i class="bi bi-arrow-left me-2"></i> Back to Collection
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function changeImage(src, element) {
+        // Change the main image source
+        document.getElementById('mainImage').src = src;
+
+        // Reset and Update Active Thumbnail Class
+        let thumbs = document.getElementsByClassName('thumb-img');
+        for (let t of thumbs) {
+            t.classList.remove('active');
+        }
+        element.classList.add('active');
+    }
+</script>

@@ -1,0 +1,142 @@
+﻿@model RegesterModel
+@{
+    Layout = null;
+    // تحديد الاتجاه ليكون من اليسار لليمين بما أن اللغة إنجليزية
+    var isRtl = false;
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Create Account</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+        body {
+            background-color: #fdfaf5; /* Creamy Beige */
+            background-image: radial-gradient(#e3d5ca 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        .auth-card {
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(93, 64, 55, 0.1);
+            background-color: #ffffff;
+            max-width: 450px;
+            width: 100%;
+            border: 1px solid #eee2d9;
+        }
+
+        .text-brown-dark {
+            color: #5d4037;
+        }
+
+        .text-brown-light {
+            color: #8d6e63;
+        }
+
+        .form-control {
+            border: 1px solid #e3d5ca;
+            padding: 12px;
+            background-color: #faf7f5;
+            border-radius: 12px !important;
+        }
+
+            .form-control:focus {
+                border-color: #8d6e63;
+                box-shadow: 0 0 0 0.25rem rgba(141, 110, 99, 0.15);
+                background-color: #fff;
+            }
+
+        .btn-register {
+            background-color: #6d4c41;
+            border: none;
+            color: white;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-register:hover {
+                background-color: #4e342e;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(78, 52, 46, 0.3);
+                color: white;
+            }
+
+        .link-custom {
+            color: #8d6e63;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+            .link-custom:hover {
+                color: #5d4037;
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center">
+        <div class="card auth-card p-4 p-md-5">
+            <div class="text-center mb-4">
+                <h2 class="text-brown-dark fw-bold">Create Account</h2>
+                <p class="text-brown-light">Join us and start your journey</p>
+            </div>
+
+            <form asp-action="Register" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small"></div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="User_Name" class="form-control" placeholder="Username" />
+                    <label asp-for="User_Name" class="text-muted">Username</label>
+                    <span asp-validation-for="User_Name" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="User_Email" class="form-control" placeholder="Email Address" />
+                    <label asp-for="User_Email" class="text-muted">Email Address</label>
+                    <span asp-validation-for="User_Email" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                    <label asp-for="Password" class="text-muted">Password</label>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input asp-for="Confirm_Password" type="password" class="form-control" placeholder="Confirm Password" />
+                    <label asp-for="Confirm_Password" class="text-muted">Confirm Password</label>
+                    <span asp-validation-for="Confirm_Password" class="text-danger small"></span>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-register btn-lg">Sign Up</button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="small text-muted mb-0">
+                    Already have an account?
+                    <a asp-action="Login" class="link-custom">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

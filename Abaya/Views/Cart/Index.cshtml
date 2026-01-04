@@ -1,0 +1,175 @@
+﻿@model IEnumerable<Abaya.Models.CartItem> // افترضت أن عندك موديل باسم CartItem
+
+@{
+    ViewData["Title"] = "My Shopping Bag";
+    decimal subtotal = Model?.Sum(x => x.Price * x.Quantity) ?? 0;
+    decimal shipping = subtotal > 0 ? 5.00m : 0; // رسوم توصيل افتراضية
+    decimal total = subtotal + shipping;
+}
+
+<style>
+    body { background-color: #faf9f6; }
+
+    .cart-header { color: #4e342e; font-weight: 800; margin-bottom: 30px; }
+
+    /* حاوية المنتجات */
+    .cart-item-card {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid #eee2d9;
+        margin-bottom: 15px;
+        padding: 20px;
+        transition: 0.3s;
+    }
+
+    .cart-item-img {
+        width: 100px;
+        height: 130px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .item-name { color: #5d4037; font-weight: 700; font-size: 1.1rem; }
+    .item-price { color: #d4a373; font-weight: 600; }
+
+    /* التحكم بالكمية */
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fdfaf5;
+        padding: 5px 15px;
+        border-radius: 50px;
+        border: 1px solid #eee2d9;
+        width: fit-content;
+    }
+
+    .btn-qty {
+        border: none;
+        background: none;
+        color: #8d6e63;
+        font-weight: bold;
+    }
+
+    /* ملخص الطلب */
+    .summary-card {
+        background: white;
+        border-radius: 25px;
+        border: 1px solid #eee2d9;
+        padding: 30px;
+        position: sticky;
+        top: 100px;
+    }
+
+    .summary-title { color: #4e342e; font-weight: 700; border-bottom: 2px solid #f5ebe0; padding-bottom: 15px; margin-bottom: 20px; }
+
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; color: #6d4c41; }
+
+    .total-row {
+        border-top: 2px solid #f5ebe0;
+        padding-top: 15px;
+        margin-top: 15px;
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: #4e342e;
+    }
+
+    .btn-checkout {
+        background-color: #5d4037;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 50px;
+        width: 100%;
+        font-weight: 600;
+        margin-top: 20px;
+        transition: 0.3s;
+    }
+
+    .btn-checkout:hover {
+        background-color: #3e2723;
+        box-shadow: 0 10px 20px rgba(93, 64, 55, 0.2);
+    }
+
+    .empty-cart { padding: 100px 0; text-align: center; }
+</style>
+
+<div class="container py-5">
+    <h1 class="cart-header text-center text-md-start">Shopping Bag</h1>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
+            <div class="col-lg-8">
+                @foreach (var item in Model)
+                {
+                    <div class="cart-item-card d-flex align-items-center flex-wrap gap-4">
+                        <img src="@item.ImageUrl" class="cart-item-img" alt="@item.Name" />
+
+                        <div class="flex-grow-1">
+                            <h5 class="item-name mb-1">@item.Name</h5>
+                            <p class="small text-muted mb-2">Color: Signature Black</p>
+                            <div class="quantity-control">
+                                <button class="btn-qty">-</button>
+                                <span class="fw-bold">@item.Quantity</span>
+                                <button class="btn-qty">+</button>
+                            </div>
+                        </div>
+
+                        <div class="text-md-end">
+                            <h5 class="item-price mb-2">@((item.Price * item.Quantity).ToString("N2")) JOD</h5>
+                            <a href="#" class="text-danger small text-decoration-none"><i class="bi bi-trash me-1"></i> Remove</a>
+                        </div>
+                    </div>
+                }
+
+                <a asp-controller="Products" asp-action="Index" class="btn text-brown-light mt-3">
+                    <i class="bi bi-arrow-left me-2"></i> Continue Shopping
+                </a>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="summary-card shadow-sm">
+                    <h4 class="summary-title">Order Summary</h4>
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>@subtotal.ToString("N2") JOD</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Estimated Shipping</span>
+                        <span>@shipping.ToString("N2") JOD</span>
+                    </div>
+
+                    <div class="summary-row total-row">
+                        <span>Total</span>
+                        <span>@total.ToString("N2") JOD</span>
+                    </div>
+
+                    <button class="btn btn-checkout">Proceed to Checkout</button>
+
+                    <div class="text-center mt-3">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" width="60" class="me-2" opacity="0.6" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" width="40" opacity="0.6" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="empty-cart card shadow-sm rounded-5 border-0">
+            <i class="bi bi-bag-x text-brown-light mb-4" style="font-size: 4rem;"></i>
+            <h3 class="fw-bold text-brown-dark">Your bag is empty</h3>
+            <p class="text-muted">Looks like you haven't added anything to your bag yet.</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-checkout w-auto px-5 mt-3">Discover Collection</a>
+        </div>
+    }
+</div>
+
+
+
+
+
+

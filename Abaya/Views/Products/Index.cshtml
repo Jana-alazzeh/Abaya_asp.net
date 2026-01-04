@@ -1,0 +1,178 @@
+﻿@model IEnumerable<Abaya.Models.Product>
+
+@{
+    ViewData["Title"] = "Our Collection";
+}
+
+<style>
+    body { background-color: #faf9f6; } /* خلفية دافئة */
+
+    .store-title {
+        color: #4e342e;
+        font-weight: 800;
+        letter-spacing: 1px;
+        margin-top: 40px;
+    }
+
+    .product-card {
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid #f1ede9;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+    }
+
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(78, 52, 46, 0.1);
+    }
+
+    /* حركية تبديل الصور */
+    .image-wrapper {
+        position: relative;
+        height: 350px;
+        overflow: hidden;
+    }
+
+    .image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.5s ease;
+    }
+
+    .img-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+    .product-card:hover .img-front { opacity: 0; }
+    .product-card:hover .img-back { opacity: 1; }
+
+    .product-info {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .product-name {
+        color: #5d4037;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+
+    .product-price {
+        color: #d4a373; /* لون ذهبي خافت */
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .btn-view {
+        background-color: #6d4c41;
+        color: white;
+        border-radius: 50px;
+        padding: 8px 25px;
+        font-size: 0.9rem;
+        border: none;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+
+    .btn-view:hover {
+        background-color: #4e342e;
+        color: white;
+    }
+</style>
+
+<div class="container mb-5">
+    <div class="text-center mb-5">
+        <h1 class="store-title">THE COLLECTION</h1>
+        <div style="width: 50px; height: 3px; background: #d4a373; margin: 10px auto;"></div>
+        <p class="text-muted">Explore our latest luxury abaya designs</p>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="product-card">
+                    <a asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none">
+                        <div class="image-wrapper">
+                            <img src="@product.ImageUrl" class="img-front" alt="@product.Name" />
+                            <img src="@(string.IsNullOrEmpty(product.ImageUrl_Back) ? product.ImageUrl : product.ImageUrl_Back)"
+                                 class="img-back" alt="@product.Name" />
+                        </div>
+                        <div class="product-info">
+                            <h5 class="product-name">@product.Name</h5>
+                            <div class="product-price">@product.Price.ToString("N2") JOD</div>
+                            <button class="btn btn-view">View Details</button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<style>
+    /* ... نفس الستايلات اللي بعتلك اياها للمتجر ... */
+    .btn-main { background-color: #6d4c41; color: white; border-radius: 20px; padding: 10px 25px; border: none; text-decoration:none; }
+    .text-brown-dark { color: #4e342e; }
+</style>
+
+
+    <div class="row g-4">
+        @foreach (var product in Model) {
+            <div class="col-lg-3 col-md-6 col-12">
+                @* ... كود الـ Card الخاص بالمنتج هنا ... *@
+                <div class="product-card">
+                   @* كود الصور والمعلومات *@
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<hr class="my-5" style="border-top: 2px solid #e3d5ca;" />
+
+د
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-brown-dark fw-bold">Management Dashboard</h2>
+        <a asp-action="Create" class="btn btn-main">+ Add New Product</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover shadow-sm rounded-4 overflow-hidden">
+            <thead style="background-color: #6d4c41; color: white;">
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody style="background-color: white;">
+                @foreach (var item in Model) {
+                    <tr>
+                        <td class="align-middle">
+                            <img src="@item.ImageUrl" width="50" height="50" style="object-fit:cover" class="rounded-circle me-2" />
+                            @item.Name
+                        </td>
+                        <td class="align-middle fw-bold">@item.Price.ToString("N2") JOD</td>
+                        <td class="align-middle">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
